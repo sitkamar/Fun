@@ -19,7 +19,7 @@ def on_press(key):
         k = key.char
     except:
         k = key.name
-    if k == "pause":
+    if k == "f24":
         return False
     if GetWindowText(GetForegroundWindow()).find('Opera') != -1:
         if k in combinationnext:

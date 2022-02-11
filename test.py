@@ -86,7 +86,7 @@ def pruchod2():
     rotateR(50)
     move_forward(3)
 def pruchod3():
-    move_forward(four)
+    move_forward(4)
 
 listener = keyboard.Listener(on_press=on_press)
 listener.start()
