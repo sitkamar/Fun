@@ -2,36 +2,37 @@ from random import choice
 from turtle import *
 from freegames import vector, floor
 
-state = {'score': 0}
+state = {'score': 0, 'eating': 0, 'time': 0, 'playing': True, 'mode': 1}
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
-aim = vector(5, 0)
+aimNext = vector(0, 0)
+aim = vector(0, 0)
 pacman = vector(-40, -80)
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(140, 160), vector(0, -5)],
-    [vector(140, -160), vector(-5, 0)]
+    [vector(-180, 160), vector(5, 0), -1],
+    [vector(-180, -160), vector(0, 5), -1],
+    [vector(140, 160), vector(0, -5), -1],
+    [vector(140, -160), vector(-5, 0), -1]
 ]
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
     0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0,
+    0, 3, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 3, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
     0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0,
     0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0,
     0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
     0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0,
     0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0,
     0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0,
+    0, 3, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 3, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
@@ -77,14 +78,20 @@ def world():
                 path.up()
                 path.goto(x+10, y+10)
                 path.dot(2, 'white')
+            if tiles[index] == 3:
+                path.up()
+                path.goto(x+10, y+10)
+                path.dot(8, 'white')
 
 
 def move():
     writer.undo()
     writer.write(state['score'])
-
+    state['eating'] -= 1
     clear()
-
+    if valid(pacman + aimNext) and (aim.x != aimNext.x or aim.y != aimNext.y):
+        aim.x = aimNext.x
+        aim.y = aimNext.y
     if valid(pacman + aim):
         pacman.move(aim)
     index = offset(pacman)
@@ -95,10 +102,22 @@ def move():
         x = (index % 20)*20 - 200
         y = 180 - (index // 20)*20
         square(x, y)
+    if tiles[index] == 3:
+        tiles[index] = 2
+        x = (index % 20)*20 - 200
+        y = 180 - (index // 20)*20
+        square(x, y)
+        state['eating'] = 100
     up()
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
     for ghost in ghosts:
+        if ghost[2] > 0:
+            ghost[2] -= 1
+        elif ghost[2] == 0:
+            ghost[2] -= 1
+            ghost[0] = choice(
+                [vector(-180, 160), vector(-180, -160), vector(140, 160), vector(140, -160)])
         options = []
         if valid(ghost[0] + ghost[1]):
             options.append(ghost[1])
@@ -106,17 +125,33 @@ def move():
             options.append(vector(ghost[1].y, ghost[1].x))
         if valid(ghost[0] - vector(ghost[1].y, ghost[1].x)):
             options.append(vector(ghost[1].y, ghost[1].x) * -1)
-        if valid(ghost[0] - ghost[1]) and len(options)>1 or len(options)==0:
+        if valid(ghost[0] - ghost[1]) and len(options) > 1 or len(options) == 0:
             options.append(ghost[1] * -1)
-        ghost[1] = choice(options)
-        ghost[0].move(ghost[1])
-        up()
-        goto(ghost[0].x + 10, ghost[0].y + 10)
-        dot(20, 'red')
-        if crash(ghost):
-            print('Game Over')
-            print('Your score is', state['score'])
-            return
+        if state['mode'] == 1:
+            ghost[1] = direction(ghost, options)
+        else:
+            ghost[1] = choice(options)
+        if state['eating'] > 0:
+            ghost[0].move(ghost[1]/5)
+            up()
+            goto(ghost[0].x + 10, ghost[0].y + 10)
+            dot(20, 'purple')
+        else:
+            ghost[0].move(ghost[1])
+            up()
+            goto(ghost[0].x + 10, ghost[0].y + 10)
+            dot(20, 'red')
+        if state['eating'] <= 0:
+            if crash(ghost):
+                print('Game Over')
+                print('Your score is', state['score'])
+                return
+        else:
+            if crash(ghost):
+                ghost[2] = 100
+                ghost[0] = vector(-20, -20)
+                state['score'] += 10
+
     update()
     ontimer(move, 100)
 
@@ -127,16 +162,75 @@ def crash(ghost):
     return floor(x, 20) == floor(pacman.x, 20) and floor(y, 20) == floor(pacman.y, 20)
 
 
+def direction(ghost, options):
+    x = pacman.x - ghost[0].x
+    y = pacman.y - ghost[0].y
+    answers = []
+    if abs(x) > abs(y):
+        if x > 0:
+            if y > 0:
+                answers.append(vector(5, 0))
+                answers.append(vector(0, 5))
+                answers.append(vector(-5, 0))
+                answers.append(vector(0, -5))
+            else:
+                answers.append(vector(5, 0))
+                answers.append(vector(0, -5))
+                answers.append(vector(-5, 0))
+                answers.append(vector(0, 5))
+        else:
+            if y > 0:
+                answers.append(vector(-5, 0))
+                answers.append(vector(0, 5))
+                answers.append(vector(5, 0))
+                answers.append(vector(0, -5))
+            else:
+                answers.append(vector(-5, 0))
+                answers.append(vector(0, -5))
+                answers.append(vector(5, 0))
+                answers.append(vector(0, 5))
+    else:
+        if y > 0:
+            if x > 0:
+                answers.append(vector(0, 5))
+                answers.append(vector(5, 0))
+                answers.append(vector(0, -5))
+                answers.append(vector(-5, 0))
+            else:
+                answers.append(vector(0, 5))
+                answers.append(vector(5, 0))
+                answers.append(vector(0, -5))
+                answers.append(vector(-5, 0))
+        else:
+            if x > 0:
+                answers.append(vector(0, -5))
+                answers.append(vector(5, 0))
+                answers.append(vector(0, 5))
+                answers.append(vector(-5, 0))
+            else:
+                answers.append(vector(0, -5))
+                answers.append(vector(-5, 0))
+                answers.append(vector(0, 5))
+                answers.append(vector(5, 0))
+    if state['eating'] > 0:
+        for i in range(4):
+            if answers[4 - i - 1] in options:
+                return answers[4 - i - 1]
+    else:
+        for answer in answers:
+            if answer in options:
+                return answer
+
+
 def change(x, y):
-    if valid(pacman + vector(x, y)):
-        aim.x = x
-        aim.y = y
+    aimNext.x = x
+    aimNext.y = y
 
 
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
-writer.goto(160, 160)
+writer.goto(180, 160)
 writer.color('white')
 writer.write(state['score'])
 listen()
