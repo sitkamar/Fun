@@ -6,7 +6,8 @@ tiles = []
 ghosts = []
 pacman = vector(0, 0)
 path = Turtle(visible=False)
-reader = open("D:\Programming\Fun\games\pacman\levels.json",'r')
+jsonFile = "D:\Programming\Fun\games\pacman\levels.json"
+reader = open(jsonFile,'r')
 levels = json.load(reader)
 reader.close()
 state = {'mode': 'n', 'level': len(levels["levels"])}
@@ -82,7 +83,8 @@ def click(x, y):
     world()
     update()
 def send():
-    writer = open("D:\Programming\Fun\games\pacman\levels.json",'w')
+    global jsonFile
+    writer = open(jsonFile,'w')
     ghostsHelp = []
     save = input('Save as new(n), replace(r): ')
     for ghost in ghosts:

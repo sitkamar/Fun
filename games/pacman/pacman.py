@@ -15,6 +15,7 @@ state['level'] =int(input('Enter level: '))
 state['mode'] = int(input('Enter mode: '))
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
+jsonFile = "D:\Programming\Fun\games\pacman\levels.json"
 
 def square(x, y):
     path.up()
@@ -203,8 +204,8 @@ def change(x, y):
     aimNext.x = x
     aimNext.y = y
 def initialize():
-    global aim, aimNext, ghosts, pacman, tiles, writer, state
-    reader = open("D:\Programming\Fun\games\pacman\levels.json",'r')
+    global aim, aimNext, ghosts, pacman, tiles, writer, state, jsonFile
+    reader = open(jsonFile,'r')
     levels = json.load(reader)
     reader.close()
     if state['level'] > len(levels['levels']):
