@@ -1,42 +1,20 @@
 from random import choice
 from turtle import *
 from freegames import vector, floor
+import json
 
-state = {'score': 0, 'eating': 0, 'time': 0, 'playing': True, 'mode': 1}
-path = Turtle(visible=False)
-writer = Turtle(visible=False)
+state = {'score': 0, 'eating': 0, 'speed': 0,
+         'playing': True, 'mode': 1, 'level': 1}
 aimNext = vector(0, 0)
 aim = vector(0, 0)
 pacman = vector(-40, -80)
-ghosts = [
-    [vector(-180, 160), vector(5, 0), -1],
-    [vector(-180, -160), vector(0, 5), -1],
-    [vector(140, 160), vector(0, -5), -1],
-    [vector(140, -160), vector(-5, 0), -1]
-]
-tiles = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0,
-    0, 3, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 3, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0,
-    0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0,
-    0, 3, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 3, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-]
-
+startghosts = []
+ghosts = []
+tiles = []
+state['level'] =int(input('Enter level: '))
+state['mode'] = int(input('Enter mode: '))
+path = Turtle(visible=False)
+writer = Turtle(visible=False)
 
 def square(x, y):
     path.up()
@@ -116,8 +94,7 @@ def move():
             ghost[2] -= 1
         elif ghost[2] == 0:
             ghost[2] -= 1
-            ghost[0] = choice(
-                [vector(-180, 160), vector(-180, -160), vector(140, 160), vector(140, -160)])
+            ghost[0] = choice(startghosts)
         options = []
         if valid(ghost[0] + ghost[1]):
             options.append(ghost[1])
@@ -225,8 +202,24 @@ def direction(ghost, options):
 def change(x, y):
     aimNext.x = x
     aimNext.y = y
+def initialize():
+    global aim, aimNext, ghosts, pacman, tiles, writer, state
+    reader = open("D:\Programming\Fun\games\pacman\levels.json",'r')
+    levels = json.load(reader)
+    reader.close()
+    if state['level'] > len(levels['levels']):
+        state['level'] = 1
+    tiles = levels['levels'][str(state['level'])]['tiles']
+    startghostsHelp = levels['levels'][str(state['level'])]['ghosts']
+    for ghost in startghostsHelp:
+        startghosts.append(vector(ghost[0], ghost[1]))
+    pacman = vector(levels['levels'][str(state['level'])]['pacman'][0], levels['levels'][str(state['level'])]['pacman'][1])
+    for ghost in startghosts:
+        ghosts.append([ghost, vector(5, 0), -1])
+    
+    
 
-
+initialize()
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
