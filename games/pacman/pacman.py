@@ -95,7 +95,10 @@ def move():
             ghost[2] -= 1
         elif ghost[2] == 0:
             ghost[2] -= 1
-            ghost[0] = choice(startghosts)
+            startghostsHelp = []
+            for option in startghosts:
+                startghostsHelp.append(option.copy())
+            ghost[0] = choice(startghostsHelp)
         options = []
         if valid(ghost[0] + ghost[1]):
             options.append(ghost[1])
@@ -105,7 +108,9 @@ def move():
             options.append(vector(ghost[1].y, ghost[1].x) * -1)
         if valid(ghost[0] - ghost[1]) and len(options) > 1 or len(options) == 0:
             options.append(ghost[1] * -1)
-        if state['mode'] == 1:
+        if len(options) < 3 and ghost[1] in options:
+            pass
+        elif state['mode'] == 1:
             ghost[1] = direction(ghost, options)
         else:
             ghost[1] = choice(options)
@@ -216,7 +221,7 @@ def initialize():
         startghosts.append(vector(ghost[0], ghost[1]))
     pacman = vector(levels['levels'][str(state['level'])]['pacman'][0], levels['levels'][str(state['level'])]['pacman'][1])
     for ghost in startghosts:
-        ghosts.append([ghost, vector(5, 0), -1])
+        ghosts.append([ghost.copy(), vector(5, 0), -1])
     
     
 
