@@ -4,7 +4,7 @@ from freegames import vector, floor
 import json
 
 state = {'score': 0, 'eating': 0, 'speed': 0,
-         'playing': True, 'mode': 1, 'level': 1}
+         'playing': True, 'mode': 1, 'level': 1, 'heighscore': 0}
 aimNext = vector(0, 0)
 aim = vector(0, 0)
 pacmanStart = vector(0, 0)
@@ -68,6 +68,10 @@ def start():
         ghosts.append([ghost.copy(), vector(5, 0), -1])
     pacman = pacmanStart.copy()
     tiles = tilesStart.copy()
+    if state['score'] > state['heighscore']:
+        state['heighscore'] = state['score']
+    state['score'] = 0
+    state['eating'] = 0
     world()
 
 def initialize():
@@ -84,6 +88,7 @@ def initialize():
         startghosts.append(vector(ghost[0], ghost[1]))
     pacmanStart = vector(levels['levels'][str(state['level'])]['pacman'][0], levels['levels'][str(state['level'])]['pacman'][1])
     start()
+
 def end():
     global tiles
     if not 1 in tiles:
@@ -95,7 +100,7 @@ def end():
     
 def move():
     writer.undo()
-    writer.write(state['score'])
+    writer.write(str(state['heighscore'])+'\n' + str(state['score']))
     state['eating'] -= 1
     clear()
     if not end():
@@ -157,7 +162,7 @@ def move():
                 dot(20, 'red')
             if state['eating'] <= 0:
                 if crash(ghost):
-                    start()
+                    initialize()
             else:
                 if crash(ghost):
                     ghost[2] = 100
@@ -244,7 +249,7 @@ hideturtle()
 tracer(False)
 writer.goto(180, 160)
 writer.color('white')
-writer.write(state['score'])
+writer.write(str(state['heighscore'])+'\n' + str(state['score']))
 listen()
 onkey(lambda: change(5, 0), 'Right')
 onkey(lambda: change(-5, 0), 'Left')
