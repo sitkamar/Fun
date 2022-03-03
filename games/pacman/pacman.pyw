@@ -16,6 +16,9 @@ tiles = []
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
 jsonFile = ".\levels.json"
+reader = open(jsonFile,'r')
+levels = json.load(reader)
+reader.close()
 
 def square(x, y):
     path.up()
@@ -61,40 +64,37 @@ def world():
                 path.up()
                 path.goto(x+10, y+10)
                 path.dot(8, 'white')
-def start():
-    global aim, aimNext, ghosts, pacman, tiles, writer, state, jsonFile, startghosts, pacmanStart, tilesStart
+    state['playing'] = True
+
+def initialize(starting):
+    global ghosts, pacman, tiles, startghosts, pacmanStart, tilesStart, levels
+    state['playing'] = False
+    if state['score'] > state['heighscore']:
+        state['heighscore'] = state['score']
+    if starting:
+        state['score'] = 0
+        state['eating'] = 0
+    if state['level'] > len(levels['levels']):
+        print("You win!")
+        print("Your score is: " + str(state['score']))
+    tilesStart = levels['levels'][str(state['level'])]['tiles'].copy()
+    startghostsHelp = levels['levels'][str(state['level'])]['ghosts'].copy()
+    for ghost in startghostsHelp:
+        startghosts.append(vector(ghost[0], ghost[1]))
+    pacmanStart = vector(levels['levels'][str(state['level'])]['pacman'][0], levels['levels'][str(state['level'])]['pacman'][1])
     ghosts = []
     for ghost in startghosts:
         ghosts.append([ghost.copy(), vector(5, 0), -1])
     pacman = pacmanStart.copy()
     tiles = tilesStart.copy()
-    if state['score'] > state['heighscore']:
-        state['heighscore'] = state['score']
-    state['score'] = 0
-    state['eating'] = 0
     world()
-
-def initialize():
-    global aim, aimNext, ghosts, pacman, tiles, writer, state, jsonFile, startghosts, pacmanStart, tilesStart
-    reader = open(jsonFile,'r')
-    levels = json.load(reader)
-    reader.close()
-    if state['level'] > len(levels['levels']):
-        print("You win!")
-        print("Your score is: " + str(state['score']))
-    tilesStart = levels['levels'][str(state['level'])]['tiles']
-    startghostsHelp = levels['levels'][str(state['level'])]['ghosts']
-    for ghost in startghostsHelp:
-        startghosts.append(vector(ghost[0], ghost[1]))
-    pacmanStart = vector(levels['levels'][str(state['level'])]['pacman'][0], levels['levels'][str(state['level'])]['pacman'][1])
-    start()
 
 def end():
     global tiles
     if not 1 in tiles:
         state['level'] += 1
         state['eating'] = 0
-        initialize()
+        initialize(False)
         return True
     return False
     
@@ -162,7 +162,7 @@ def move():
                 dot(20, 'red')
             if state['eating'] <= 0:
                 if crash(ghost):
-                    initialize()
+                    initialize(True)
             else:
                 if crash(ghost):
                     ghost[2] = 100
@@ -243,18 +243,18 @@ def change(x, y):
     aimNext.y = y
     
     
-
-setup(420, 420, 370, 0)
-hideturtle()
-tracer(False)
-writer.goto(180, 160)
-writer.color('white')
-writer.write(str(state['heighscore'])+'\n' + str(state['score']))
-listen()
-onkey(lambda: change(5, 0), 'Right')
-onkey(lambda: change(-5, 0), 'Left')
-onkey(lambda: change(0, 5), 'Up')
-onkey(lambda: change(0, -5), 'Down')
-initialize()
-move()
-done()
+while True:
+    setup(420, 420, 370, 0)
+    hideturtle()
+    tracer(False)
+    writer.goto(180, 160)
+    writer.color('white')
+    writer.write(str(state['heighscore'])+'\n' + str(state['score']))
+    listen()
+    onkey(lambda: change(5, 0), 'Right')
+    onkey(lambda: change(-5, 0), 'Left')
+    onkey(lambda: change(0, 5), 'Up')
+    onkey(lambda: change(0, -5), 'Down')
+    initialize(True)
+    move()
+    done()
