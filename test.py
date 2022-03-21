@@ -1,5 +1,7 @@
-X = y = 5,10
-res = X == y
-print(X)
-a = [1,2,3][::-1]
-print(a)
+i = 0
+while i<5:
+    print(i)
+    i += 1
+    
+else:
+    print("i is not less than 5")
