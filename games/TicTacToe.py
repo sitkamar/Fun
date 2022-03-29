@@ -40,50 +40,55 @@ class TicTacToe(App):
         if instance.text == '':
             instance.text = self.player
             if self.check_win():
+                print('win')
                 self.show_popup()
             self.player = 'X' if self.player == 'O' else 'O'
     def check_win(self):
-        if self.check_rows():
-            return True
-        elif self.check_cols():
-            return True
-        elif self.check_diag():
+        for i in range(3):
+            if self.check_rows(i):
+                return True
+            elif self.check_cols(i):
+                return True
+        if self.check_diag():
             return True
         return False
-    def check_rows(self):
-        for row in range(0, 3):
-            for i in range(0, 3):
-                if not self.check_button(row, i):
-                    return False
-        return True
-    def check_cols(self):
-        for col in range(0, 3):
-            for i in range(0, 3):
-                if not self.check_button(i, col):
-                    return False
-        return True
+    def check_rows(self,i):
+        returner = True
+        for j in range(3):
+            if not self.check_button(i, j):
+                returner =  False
+        return returner
+    def check_cols(self,i):
+        returner = True
+        for row in range(3):
+            if not self.check_button(row, i):
+                returner = False
+        return returner
     def check_diag(self):
-        for i in range(0, 3):
+        returner = True
+        for i in range(3):
             if not self.check_button(i, i):
-                return False
-        for i in range(0, 3):
+                returner = False
+        if returner:
+            return True
+        returner = True
+        for i in range(3):
             if not self.check_button(2-i, i):
-                return False
-        return True
+                returner = False
+        return returner
     def check_button(self, row, col):
-        btn = self.root.children[row*3+col]
-        print(row*3+col)
+        btn = self.root.children[row*3+col + 1]
         if btn.text == self.player:
             return True
         return btn.text == self.player
     def show_popup(self):
         content = Button(text='Close', size_hint=(1, 1))
         popup = Popup(title='Game Over', content=content, size_hint=(0.5, 0.5))
-        content.bind(on_press=self.end(content,popup))
+        content.bind(on_press=lambda xd: self.end(instance=content,popup=popup))
         popup.open()
     def end(self, instance, popup):
         popup.dismiss()
-        self.restart()
+        self.restart(instance)
     def restart(self, instance):
         self.root.clear_widgets()
         for i in range(0, 9):
