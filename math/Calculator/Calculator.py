@@ -13,6 +13,8 @@ from kivy.uix.image import Image
 from kivy.uix.image import AsyncImage
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
+from kivy.graphics import Color, Rectangle
+
 
 class Calculator(App):
     pressedKeys = []
@@ -22,8 +24,7 @@ class Calculator(App):
         self._keyboard.bind(on_key_down=self._on_keyboard_down,on_key_up=self._on_keyboard_up)
         backround.cols = 1
         backround.rows = 2
-        display = Label(text='', font_size=40, size_hint=(1, 0.5))
-        display.color = (200, 0, 0, 1)
+        display = Button(text='', font_size=40, size_hint=(1, 0.5), disabled=True, background_color=(255, 255, 255, 10), color = (0,0,0,1))
         backround.add_widget(display)
         gr = GridLayout()
         gr.cols = 5

