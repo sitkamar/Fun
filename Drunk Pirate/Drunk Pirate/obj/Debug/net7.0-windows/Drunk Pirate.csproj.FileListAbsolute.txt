@@ -1,0 +1,17 @@
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\bin\Debug\net7.0-windows\Drunk Pirate.exe
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\bin\Debug\net7.0-windows\Drunk Pirate.deps.json
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\bin\Debug\net7.0-windows\Drunk Pirate.runtimeconfig.json
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\bin\Debug\net7.0-windows\Drunk Pirate.dll
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\bin\Debug\net7.0-windows\Drunk Pirate.pdb
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.csproj.AssemblyReference.cache
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk_Pirate.Form1.resources
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.csproj.GenerateResource.cache
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.AssemblyInfoInputs.cache
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.AssemblyInfo.cs
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.csproj.CoreCompileInputs.cache
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.dll
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\refint\Drunk Pirate.dll
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.pdb
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\Drunk Pirate.genruntimeconfig.cache
+C:\Users\sitka\OneDrive\Dokumenty\Matfyz\semestr2\PG2\Drunk Pirate\Drunk Pirate\obj\Debug\net7.0-windows\ref\Drunk Pirate.dll

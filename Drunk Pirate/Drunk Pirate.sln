@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drunk Pirate", "Drunk Pirate\Drunk Pirate.csproj", "{4E6BDC28-EEC3-4F9F-A61B-62E4EC2B339D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E6BDC28-EEC3-4F9F-A61B-62E4EC2B339D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6BDC28-EEC3-4F9F-A61B-62E4EC2B339D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6BDC28-EEC3-4F9F-A61B-62E4EC2B339D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6BDC28-EEC3-4F9F-A61B-62E4EC2B339D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A915BD64-1C8B-458D-8729-82A2E5ADD883}
+	EndGlobalSection
+EndGlobal
